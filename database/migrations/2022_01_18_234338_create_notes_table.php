@@ -17,7 +17,6 @@ class CreateNotesTable extends Migration
             $table->id();
             $table->string('subject')->notNullable();
             $table->enum('priority', ['very important','important','not important']);
-            // $table->enum('priority', ['easy','medium','hard']);
             $table->text('text')->notNullable();
             $table->foreignId('user_id')->references('id')->on('users');
             $table->timestamps();

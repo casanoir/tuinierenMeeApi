@@ -17,55 +17,59 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-
-
-//http://localhost:8000/api/gardens
 $router->group(['prefix' => 'api'], function () use ($router) {
-    // get request
-    $router->get('gardens',  ['uses' => 'GardenController@showGarden']);
-    
-    //others request
-    $router->post('gardens', ['uses' => 'GardenController@createGarden']);
-    $router->put('gardens/{id}', ['uses' => 'GardenController@updateGarden']);
-});
+    //http://localhost:8000/api/garden
 
+        // get request show garden:  id, name, area_m, city
+    $router->get('garden',  ['uses' => 'GardenController@showGarden']);
+        //Create Garden
+    $router->post('garden', ['uses' => 'GardenController@createGarden']);
+        //Update Garden
+    $router->put('garden/{id}', ['uses' => 'GardenController@updateGarden']);
 
+    //http://localhost:8000/api/users
 
-//http://localhost:8000/api/users
-$router->group(['prefix' => 'api'], function () use ($router) {
-        // get request
+        // get request Show users
     $router->get('users',  ['uses' => 'UserController@showAllUsers']);
+        //get request Email & Password Login
+    $router->get('login',  ['uses' => 'UserController@getUserLogin']);
+        //POST new user request firstName lastName email password Register
+    $router->post('userRegister', ['uses' => 'UserController@register']);
+        //POST add user invitation request firstName lastName email password role:'assist','respond','view'
+    $router->post('invitation/{userID}', ['uses' => 'UserController@invitation']);
+        //Delete user id
+    $router->delete('user/{id}/{userID}', ['uses' => 'UserController@deleteUser']);
+        //Update user request+id
+    $router->put('user/{id}', ['uses' => 'UserController@updateUser']);
 
-        //get request Show User Email & Password
-    $router->get('loginD',  ['uses' => 'UserController@getUserLogin']);
-    $router->get('user/{id}',  ['uses' => 'UserController@showUser']);
+    //http://localhost:8000/api/alarms
 
-        //others request
-    $router->post('users', ['uses' => 'UserController@createUser']);
-    $router->delete('users/{id}', ['uses' => 'UserController@deleteUser']);
-    $router->put('users/{id}', ['uses' => 'UserController@updateUser']);
-});
-
-
-//http://localhost:8000/api/alarms
-$router->group(['prefix' => 'api'], function () use ($router) {
-        // get request
+        // get request Show alarms
     $router->get('alarms',  ['uses' => 'AlarmController@showAllAlarms']);
-    $router->get('alarms/{id}', ['uses' => 'AlarmController@getUserAlarms']);
-        //others request
-    $router->post('alarms', ['uses' => 'AlarmController@createAlarm']);
-    $router->delete('alarms/{id}', ['uses' => 'AlarmController@deleteAlarm']);
-    $router->put('alarms/{id}', ['uses' => 'AlarmController@updateAlarm']);
-});
+        // get request Show user's alarm 
+    $router->get('userAlarms/{id}', ['uses' => 'AlarmController@getUserAlarms']);
+        // Create alarm request+userID
+    $router->post('alarms/{userID}', ['uses' => 'AlarmController@createAlarm']);
+        //Delete alarm userID roles
+    $router->delete('alarms/{id}/{userID}', ['uses' => 'AlarmController@deleteAlarm']);
+        //Update Alarm userID roles
+    $router->put('alarms/{id}/{userID}', ['uses' => 'AlarmController@updateAlarm']);
 
+    //http://localhost:8000/api/notes
 
-//http://localhost:8000/api/notes
-$router->group(['prefix' => 'api'], function () use ($router) {
-        // get request
+        // get request Show notes
     $router->get('notes',  ['uses' => 'NoteController@showAllNotes']);
+        // get request Show notes
     $router->get('notes/{id}', ['uses' => 'NoteController@getUserNotes']);
-        //others request
-    $router->post('notes', ['uses' => 'NoteController@createNote']);
-    $router->delete('notes/{id}', ['uses' => 'NoteController@deleteNote']);
-    $router->put('notes/{id}', ['uses' => 'NoteController@updateNote']);
+        // Create Note request+userID
+    $router->post('note/{userID}', ['uses' => 'NoteController@createNote']);
+        //Delete Note userID roles
+    $router->delete('notes/{id/{userID}}', ['uses' => 'NoteController@deleteNote']);
+        //Update Note userID roles
+    $router->put('note/{id}/{userID}', ['uses' => 'NoteController@updateNote']);
+
 });
+
+
+
+
