@@ -19,8 +19,6 @@ class NoteController extends Controller
     {
         $result = DB::select("SELECT notes.id,notes.subject,notes.priority,notes.text,notes.user_id FROM users JOIN notes ON users.id = notes.user_id WHERE notes.user_id= {$id} ORDER BY priority ASC");
         return json_encode($result);
-        
-
     }
 //Create Note only for userID roles: baas or assistent or verantwortlijk or bezoeker
     public function createNote($userID,Request $request)

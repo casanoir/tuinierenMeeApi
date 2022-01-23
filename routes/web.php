@@ -67,7 +67,20 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->delete('notes/{id/{userID}}', ['uses' => 'NoteController@deleteNote']);
         //Update Note userID roles
     $router->put('note/{id}/{userID}', ['uses' => 'NoteController@updateNote']);
+    
+    
+    //http://localhost:8000/api/plants
 
+        // Get request Show all plants
+    $router->get('plants',  ['uses' => 'PlantsGardenController@showPlants']);
+        // Get request "name" Search plants
+    $router->get('plant',  ['uses' => 'PlantsGardenController@searchPlant']);
+        // POST request "name" Search plants
+    $router->post('plant',  ['uses' => 'PlantsGardenController@addPlantToGarden']);
+        // Get all plants that i have in my garden -showMyplants($id)-
+    $router->get('plantsGarden',  ['uses' => 'PlantsGardenController@showMyplants']);
+        // Delete plant from my garden -deletePlant($id),$userID-
+    $router->delete('deletePlant/{id}/{userID}',  ['uses' => 'PlantsGardenController@deletePlant']);
 });
 
 
