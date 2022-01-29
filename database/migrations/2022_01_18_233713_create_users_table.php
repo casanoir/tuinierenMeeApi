@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->notNullable();
             $table->string('phone_nummer')->nullable();
             $table->string('password')->notNullable();
-            $table->enum('roles', ['baas','assistent','verantwoordelijke','bezoeker'])->default('baas');
+            $table->enum('role', ['baas','assistent'])->default('baas');
             $table->string('avatar')->nullable();
             $table->timestamps();
         });

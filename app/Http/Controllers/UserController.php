@@ -10,10 +10,18 @@ use DB;
 
 class UserController extends Controller
 {
-//Show users
+//Show users 
     public function showAllUsers()
     {
-        return response()->json(User::all());
+        $result = DB::select("SELECT users.id , users.firstName , users.lastName, users.email,users.avatar, users.phone_nummer, users.role FROM users");
+        return json_encode($result);
+        
+    }
+//Show one user 
+    public function showOneUser($id)
+    {
+        $result = DB::select("SELECT users.id , users.firstName , users.lastName, users.email,users.avatar, users.role FROM users WHERE users.id = '$id'");
+        return json_encode($result);
         
     }
 
@@ -23,14 +31,14 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->update($request->all());
 
-        return response()->json($user, 200);
+        return response('Update Successfully', 200);
     }
 //Delete user
-    public function deleteUser($id,$num)
+    public function deleteUser($id,$userID)
     {
-        $user=User::findOrFail($num);
-        $usersroles=$user->roles;
-        if($usersroles=="baas" or $usersroles=="assistent"){
+        $user=User::findOrFail($userID);
+        $usersrole=$user->role;
+        if($usersrole=="baas"){
             User::findOrFail($id)->delete();
             return response('Deleted Successfully', 200);
             }
@@ -39,19 +47,26 @@ class UserController extends Controller
             }
     }
     
-//Register
+//Register---> Password Hash
     public function register(Request $request) 
     {
-        $this->validate($request, [
-        'firstName' => 'required',
-        'lastName' => 'required',
-        'email'=> 'required|email|unique:users',
-        'password'=> 'required'
-        ]);    
-        $user = User::create($request->all());    
+        {
+            $this->validate($request, [
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'email'=> 'required|email|unique:users',
+            'password'=> 'required'
+            ]);    
+            $user = User::create($request->all()); 
+            $userId= $user->id;
+            // echo $userId;
+        }
+        
+        $result = DB::select("SELECT users.id , users.firstName , users.lastName, users.avatar, users.email, users.phone_nummer, users.role FROM users WHERE users.id = '$userId' ");
+        return json_encode($result);   
     }
 
-//Login
+//Login---> Password Hash & Auth
     public function getUserLogin(Request $request)
     {
         $this->validate($request, [
@@ -66,7 +81,7 @@ class UserController extends Controller
             if($userPw){
                 // echo 'pw Ok';
                 $userEmail =  $request->email;
-                $result = DB::select("SELECT users.id , users.firstName , users.lastName, users.avatar,users.phone_nummer, users.roles FROM users WHERE users.email = '$userEmail' ");
+                $result = DB::select("SELECT users.id , users.firstName , users.lastName, users.avatar, users.email, users.phone_nummer, users.role FROM users WHERE users.email = '$userEmail' ");
                 return json_encode($result);
             }
             else{
@@ -78,19 +93,21 @@ class UserController extends Controller
         }
         
     }
-//Invitation
+//Invitation---> Password Hash
     public function invitation($userID,Request $request)
     {
     $user=User::findOrFail($userID);
-    $usersroles=$user->roles;
-    if($usersroles=="baas"){
+    $usersrole=$user->role;
+    echo $usersrole;
+    if($usersrole=="baas"){
         $this->validate($request, [
                 'firstName' => 'required',
                 'lastName' => 'required',
                 'email'=> 'required|email|unique:users',
-                'roles'=> 'required',
+                'role'=> 'required',
                 'password'=> 'required'
                 ]);    
+                echo $request->role ;
             $user = User::create($request->all());
             return 'change the password after login';
         }

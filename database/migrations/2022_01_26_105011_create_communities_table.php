@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlantsGardensTable extends Migration
+class CreateCommunitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePlantsGardensTable extends Migration
      */
     public function up()
     {
-        Schema::create('plants_gardens', function (Blueprint $table) {
+        Schema::create('communities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('plant_id')->references('id')->on('plants')->unique()->notNullable();
-            $table->foreignId('garden_id')->references('id')->on('gardens')->unique()->notNullable();
+            $table->text('text')->notNullable();
+            $table->foreignId('user_id')->references('id')->on('users')->notNullable();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreatePlantsGardensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plants_gardens');
+        Schema::dropIfExists('communities');
     }
 }

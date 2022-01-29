@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAlarmsTable extends Migration
+class CreateGardenPlantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAlarmsTable extends Migration
      */
     public function up()
     {
-        Schema::create('alarms', function (Blueprint $table) {
+        Schema::create('garden_plants', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->notNullable();
-            $table->enum('task', ['water','Bemesting','Gebladerte']);
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('plant_id')->references('id')->on('plants')->unique()->notNullable();
+            $table->foreignId('garden_id')->references('id')->on('gardens')->notNullable();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateAlarmsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('alarms');
+        Schema::dropIfExists('garden_plants');
     }
 }

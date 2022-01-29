@@ -27,6 +27,7 @@ class GardenController extends Controller
         ]);
         $result =Garden::all()->first();
         if(!$result){
+            //create garden
             $garden = Garden::create($request->all());
             return response()->json($garden, 201);
         }

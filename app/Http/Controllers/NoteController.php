@@ -20,45 +20,23 @@ class NoteController extends Controller
         $result = DB::select("SELECT notes.id,notes.subject,notes.priority,notes.text,notes.user_id FROM users JOIN notes ON users.id = notes.user_id WHERE notes.user_id= {$id} ORDER BY priority ASC");
         return json_encode($result);
     }
-//Create Note only for userID roles: baas or assistent or verantwortlijk or bezoeker
-    public function createNote($userID,Request $request)
+//Create Note 
+    public function createNote(Request $request)
     {
-        $user=User::findOrFail($userID);
-        $usersroles=$user->roles;
-        if($usersroles!="bezoeker"){
-            $note = Note::create($request->all());
-            return response()->json($note, 201);
-        }
-        else{
-            return 'you don t have the ac';
-            }
+        $note = Note::create($request->all());
+        return response()->json($note, 201);
     }
-//Update Note only for userID roles: baas or assistent or verantwortlijk or bezoeker
-    public function updateNote($id,$userID, Request $request)
+//Update Note 
+    public function updateNote($id, Request $request)
     {
-        $user=User::findOrFail($userID);
-        $usersroles=$user->roles;
-        if($usersroles!="bezoeker"){
-            $note = Note::findOrFail($id);
-            $note->update($request->all());
-            return response()->json($note, 200);
-            }
-        else{
-            return 'you don t have the ac';
-            }
+        $note = Note::findOrFail($id);
+        $note->update($request->all());
+        return response()->json($note, 200);
         }
-//Delete Note only for userID roles: baas or assistent or verantwortlijk or bezoeker
-    public function deleteNote($id,$userID)
+//Delete Note 
+    public function deleteNote($id)
     {
-        $user=User::findOrFail($userID);
-        $usersroles=$user->roles;
-        if($usersroles!="bezoeker"){
-            Alarm::findOrFail($id)->delete();
-            return response('Deleted Successfully', 200);
-            }
-        else{
-            return 'you don t have the ac';
-            }
-        
+        Alarm::findOrFail($id)->delete();
+        return response('Deleted Successfully', 200);
     }
 }
