@@ -62,14 +62,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
         // Get request Show all plants
     $router->get('plants',  ['uses' => 'GardenPlantsController@showAllPlants']);
-    //     // Get request "name" Search plants
-    // $router->get('plant',  ['uses' => 'GardenPlantsController@searchPlant']);
-    //     // POST request "name" Search plants
-    // $router->post('plant',  ['uses' => 'GardenPlantsController@addPlantToGarden']);
-    //     // Get all plants that i have in my garden -showMyplants($id)-
-    // $router->get('plantsGarden',  ['uses' => 'GardenPlantsController@showMyplants']);
-    //     // Delete plant from my garden 
-    // $router->delete('deletePlant/{id}',  ['uses' => 'GardenPlantsController@deletePlant']);
+        // Get request "name" Search plants
+    $router->get('plant',  ['uses' => 'GardenPlantsController@searchPlant']);
+        // POST request "name" Search plants
+    $router->post('plant',  ['uses' => 'GardenPlantsController@addPlantToGarden']);
+        // Get all plants that i have in my garden -showMyplants($id)-
+    $router->get('plantsGarden',  ['uses' => 'GardenPlantsController@showMyplants']);
+        // Delete plant from my garden 
+    $router->delete('deletePlant/{id}',  ['uses' => 'GardenPlantsController@deletePlant']);
 });
 
 
