@@ -18,6 +18,7 @@ class CreateAlarmsTable extends Migration
             $table->date('date')->notNullable();
             $table->enum('task', ['water','Bemesting','Gebladerte']);
             $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('plant_id')->references('id')->on('plants');
             $table->timestamps();
         });
     }

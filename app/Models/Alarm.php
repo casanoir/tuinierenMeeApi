@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Alarm extends Model
 {
-    protected $fillable = ['date','task','user_id'];	
+    protected $fillable = ['date','task','user_id','plant_id'];	
 }

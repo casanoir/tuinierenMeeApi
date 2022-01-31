@@ -11,7 +11,7 @@ class GardenController extends Controller
 // Show Garden
     public function showGarden()
     {
-        $result=DB::select("SELECT gardens.id , gardens.name ,(gardens.length_cm*0.01 )*(gardens.width_cm*0.01) AS area_m°,gardens.city FROM gardens ");
+        $result=DB::select("SELECT gardens.id , gardens.name ,(gardens.length_cm*0.01 )*(gardens.width_cm*0.01) AS area_m°,gardens.country,gardens.city,gardens.street FROM gardens ");
         return json_encode($result);
     }
 // Create Garden

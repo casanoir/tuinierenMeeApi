@@ -5,71 +5,113 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-//http://localhost:8000/api/garden
+/********************************************************************** */
+                        //GET REQUEST
+/********************************************************************** */
+    // -----------Garden
+        // Show garden:  id, name, area_m, city
+            $router->get('garden',  ['uses' => 'GardenController@showGarden']);
+    // -----------PlantsGarden
+        // Get CHART    
 
-        // get request show garden:  id, name, area_m, city
-    $router->get('garden',  ['uses' => 'GardenController@showGarden']);
+        // Get from plantsGarden "foto" "name" "sun hour per day" "foliage days" "water days" "fertilizer days" "creatAt" "oorgst"
+            
+        // Show all plants -> "foto" "name" "sun hour per day" "foliage days" "water days" "fertilizer days" "levels" "frosts"
+            $router->get('plants',  ['uses' => 'GardenPlantsController@showAllPlants']);
+    // -----------Plants
+        // Show all plants -> "foto" "name" "sun hour per day" "foliage days" "water days" "fertilizer days" "levels" "frosts"
+            $router->get('plants',  ['uses' => 'GardenPlantsController@showAllPlants']);
+        // Plant Info : all infos
+            $router->get('plant/{id}',  ['uses' => 'GardenPlantsController@showPlantInfo']);
+        // Search plants "name"  -> "foto" "name" "sun hour per day" "foliage days" "water days" "fertilizer days" "levels" "frosts" 
+            $router->get('plant',  ['uses' => 'GardenPlantsController@searchPlant']);
+        
+    // -----------Notes
+        // Show all notes 
+            $router->get('notes',  ['uses' => 'NoteController@showAllNotes']);
+        // Show notes -> "createAT" "createBy" "Subject" "priority" ORDER BY date
+            $router->get('userNotesByDate/{id}',  ['uses' => 'NoteController@getUserNotesByDate']);
+        // Show notes -> "createAT" "createBy" "Subject" "priority" ORDER BY priority
+            $router->get('userNotesByPriority/{id}',  ['uses' => 'NoteController@getUserNotesByPriority']);
+    // -----------Alarms
+        // Show all alarms -> "date" "task" "plantName" "plantFoto" "userName" ORDER BY date
+            $router->get('alarmsByDate',  ['uses' => 'AlarmController@showAllAlarmsByDate']);  
+        // Show all alarms -> "date" "task" "plantName" "plantFoto" "userName" ORDER BY task
+            $router->get('alarmsByTask',  ['uses' => 'AlarmController@showAllAlarmsByTask']);
+        // Show all alarms -> "date" "task" "plantName" "plantFoto" "userName" ORDER BY plantName
+            $router->get('alarmsByPlant',  ['uses' => 'AlarmController@showAllAlarmsByPlant']);
+        // Show all alarms -> "date" "task" "plantName" "plantFoto" "userName" ORDER BY users
+            $router->get('alarmsByUsers',  ['uses' => 'AlarmController@showAllAlarmsByUsers']);
+        
+        // Show user alarms -> "date" "task" "plantName" "plantFoto" "userName" ORDER BY date
+        $router->get('getUserAlarmsByDate/{id}',  ['uses' => 'AlarmController@getUserAlarmsByDate']);  
+        // Show user alarms -> "date" "task" "plantName" "plantFoto" "userName" ORDER BY task
+            $router->get('getUserAlarmsByTask/{id}',  ['uses' => 'AlarmController@getUserAlarmsByTask']);
+        // Show user alarms -> "date" "task" "plantName" "plantFoto" "userName" ORDER BY plantName
+            $router->get('getUserAlarmsByPlant/{id}',  ['uses' => 'AlarmController@getUserAlarmsByPlant']);
+    // -----------Communities
+        //  Show all community text -> "userNAme" "avatar" "text" "createAt"
+            $router->get('community',  ['uses' => 'CommunitiesController@showAllAlarmsByUsers']);
+    // -----------Users
+        // Show users
+            $router->get('user/{id}',  ['uses' => 'UserController@showUser']);
+        // Email & Password Login
+            $router->get('login',  ['uses' => 'UserController@getUserLogin']);
+        // Show users name email phon avatar role createAt 
+            $router->get('users',  ['uses' => 'UserController@showAllUsers']);
+        // Get Amout users
+            $router->get('amout',  ['uses' => 'UserController@amoutUsers']);
+/********************************************************************** */
+                        //POST REQUEST
+/********************************************************************** */
+    // -----------Garden
         //Create Garden
-    $router->post('garden', ['uses' => 'GardenController@createGarden']);
+            $router->post('garden', ['uses' => 'GardenController@createGarden']);
+    // -----------PlantsGarden
+        // Add plant to garden -> "plantId" "gardenId"
+            $router->post('addPlantToGarden', ['uses' => 'GardenPlantsController@addPlantToGarden']);
+    // -----------Notes
+        // Create Note -> "subject" "priority" "test" "userId"
+            $router->post('note', ['uses' => 'NoteController@createNote']);
+    // -----------Alarms
+        // Create alarm ->"plantID" "userID" "date" "Task:'water', 'fertilizer', 'foliage'"
+            $router->post('alarm', ['uses' => 'AlarmController@createAlarm']);
+    // -----------Communities
+        //Add user invitation -> "firstName" "lastName" "email" "password" "role:'assist','respond','view'"
+            $router->post('invitation/{userID}', ['uses' => 'UserController@invitation']);
+    // -----------Users
+        //New user request -> "firstName" "lastName" "email" "password" 
+            $router->post('userRegister', ['uses' => 'UserController@register']);
+
+
+/********************************************************************** */
+                        //PUT REQUEST
+/********************************************************************** */
+    // -----------Garden
         //Update Garden
-    $router->put('garden/{id}', ['uses' => 'GardenController@updateGarden']);
-
-//http://localhost:8000/api/users
-
-        // get request Show users
-    $router->get('users',  ['uses' => 'UserController@showAllUsers']);
-        // get request Show users
-    $router->get('user/{id}',  ['uses' => 'UserController@showOneUser']);
-        //get request Email & Password Login
-    $router->get('login',  ['uses' => 'UserController@getUserLogin']);
-        //POST new user request firstName lastName email password Register
-    $router->post('userRegister', ['uses' => 'UserController@register']);
-        //POST add user invitation request firstName lastName email password role:'assist','respond','view'
-    $router->post('invitation/{userID}', ['uses' => 'UserController@invitation']);
-        //Delete user id
-    $router->delete('user/{id}/{userID}', ['uses' => 'UserController@deleteUser']);
-        //Update user request+id
-    $router->put('user/{id}', ['uses' => 'UserController@updateUser']);
-
-//http://localhost:8000/api/alarms
-
-        // get request Show alarms
-    $router->get('alarms',  ['uses' => 'AlarmController@showAllAlarms']);
-        // get request Show user's alarm 
-    $router->get('userAlarms/{id}', ['uses' => 'AlarmController@getUserAlarms']);
-        // Create alarm request
-    $router->post('alarm', ['uses' => 'AlarmController@createAlarm']);
-        //Delete alarm 
-    $router->delete('alarm/{id}', ['uses' => 'AlarmController@deleteAlarm']);
-        //Update Alarm 
-    $router->put('alarm/{id}', ['uses' => 'AlarmController@updateAlarm']);
-
-//http://localhost:8000/api/notes
-
-        // get request Show notes
-    $router->get('notes',  ['uses' => 'NoteController@showAllNotes']);
-        // get request Show user notes
-    $router->get('userNotes/{id}', ['uses' => 'NoteController@getUserNotes']);
-        // Create Note request+userID
-    $router->post('note', ['uses' => 'NoteController@createNote']);
-        //Delete Note userID roles
-    $router->delete('note/id', ['uses' => 'NoteController@deleteNote']);
+            $router->put('garden/{id}', ['uses' => 'GardenController@updateGarden']);
+    // -----------Notes
         //Update Note userID roles
-    $router->put('note/{id}', ['uses' => 'NoteController@updateNote']);
-    
-    
-//http://localhost:8000/api/plants
+            $router->put('note/{id}', ['uses' => 'NoteController@updateNote']);
+    // -----------Alarms
+        //Update Alarm 
+            $router->put('alarm/{id}', ['uses' => 'AlarmController@updateAlarm']);
+    // -----------Users
+        //Update user request+id
+            $router->put('user/{id}', ['uses' => 'UserController@updateUser']);
 
-        // Get request Show all plants
-    $router->get('plants',  ['uses' => 'GardenPlantsController@showAllPlants']);
-        // Get request "name" Search plants
-    $router->get('plant',  ['uses' => 'GardenPlantsController@searchPlant']);
-        // POST request "name" Search plants
-    $router->post('plant',  ['uses' => 'GardenPlantsController@addPlantToGarden']);
-        // Get all plants that i have in my garden -showMyplants($id)-
-    $router->get('plantsGarden',  ['uses' => 'GardenPlantsController@showMyplants']);
-        // Delete plant from my garden 
-    $router->delete('deletePlant/{id}',  ['uses' => 'GardenPlantsController@deletePlant']);
+/********************************************************************** */
+                        //DELETE REQUEST
+/********************************************************************** */
+    // -----------PlantsGarden
+            $router->delete('plantsGarden/{id}/{userId}', ['uses' => 'GardenPlantsController@deleteGardenPlant']);
+    // -----------Notes
+            $router->delete('note/{id}', ['uses' => 'NoteController@deleteNote']);
+    // -----------Alarms
+            $router->delete('alarm/{id}', ['uses' => 'AlarmController@deleteAlarm']);
+    // -----------Users
+            $router->delete('user/{id}/{userID}', ['uses' => 'UserController@deleteUser']);
+
 });
 
 
