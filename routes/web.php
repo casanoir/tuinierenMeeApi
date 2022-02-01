@@ -51,7 +51,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->get('getUserAlarmsByPlant/{id}',  ['uses' => 'AlarmController@getUserAlarmsByPlant']);
     // -----------Communities
         //  Show all community text -> "userNAme" "avatar" "text" "createAt"
-            $router->get('community',  ['uses' => 'CommunitiesController@showAllAlarmsByUsers']);
+            $router->get('community',  ['uses' => 'CommunityController@showAllPost']);
+        //  Show my post -> "userNAme" "avatar" "text" "createAt"
+            $router->get('userPost/{id}',  ['uses' => 'CommunityController@showPost']);
     // -----------Users
         // Show users
             $router->get('user/{id}',  ['uses' => 'UserController@showUser']);
@@ -77,8 +79,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         // Create alarm ->"plantID" "userID" "date" "Task:'water', 'fertilizer', 'foliage'"
             $router->post('alarm', ['uses' => 'AlarmController@createAlarm']);
     // -----------Communities
-        //Add user invitation -> "firstName" "lastName" "email" "password" "role:'assist','respond','view'"
-            $router->post('invitation/{userID}', ['uses' => 'UserController@invitation']);
+        //Add post
+            $router->post('post', ['uses' => 'CommunityController@createPost']);
     // -----------Users
         //New user request -> "firstName" "lastName" "email" "password" 
             $router->post('userRegister', ['uses' => 'UserController@register']);
@@ -99,6 +101,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // -----------Users
         //Update user request+id
             $router->put('user/{id}', ['uses' => 'UserController@updateUser']);
+    // -----------Community
+        //Update POST request+id
+            $router->put('post/{id}', ['uses' => 'UserController@updatePost']);
 
 /********************************************************************** */
                         //DELETE REQUEST
@@ -111,6 +116,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->delete('alarm/{id}', ['uses' => 'AlarmController@deleteAlarm']);
     // -----------Users
             $router->delete('user/{id}/{userID}', ['uses' => 'UserController@deleteUser']);
+    // -----------Community
+            $router->delete('post/{id}', ['uses' => 'UserController@deletePost']);
 
 });
 
