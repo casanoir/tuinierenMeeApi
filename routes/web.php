@@ -103,7 +103,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->put('user/{id}', ['uses' => 'UserController@updateUser']);
     // -----------Community
         //Update POST request+id
-            $router->put('post/{id}', ['uses' => 'UserController@updatePost']);
+            $router->put('post/{id}', ['uses' => 'CommunityController@updatePost']);
 
 /********************************************************************** */
                         //DELETE REQUEST
@@ -117,7 +117,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // -----------Users
             $router->delete('user/{id}/{userID}', ['uses' => 'UserController@deleteUser']);
     // -----------Community
-            $router->delete('post/{id}', ['uses' => 'UserController@deletePost']);
+            $router->delete('post/{id}', ['uses' => 'CommunityController@deletePost']);
 
 });
 

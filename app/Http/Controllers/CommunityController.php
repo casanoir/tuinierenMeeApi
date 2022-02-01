@@ -18,6 +18,7 @@ class CommunityController extends Controller
                 users.firstName, 
                 users.lastName,
                 users.avatar,
+                communities.text,
                 communities.created_at
             FROM communities 
             INNER JOIN users 
@@ -33,6 +34,7 @@ class CommunityController extends Controller
                         users.firstName, 
                         users.lastName,
                         users.avatar,
+                        communities.text,
                         communities.created_at
                     FROM communities 
                     INNER JOIN users 
